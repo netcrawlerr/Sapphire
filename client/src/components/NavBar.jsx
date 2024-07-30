@@ -7,7 +7,7 @@ const NavBar = () => {
   return (
     <div>
       <div className="flex justify-between items-center px-8 py-4 lg:py-6">
-        <img src="/logo.png" className="w-[220px]" alt="Logo" />
+        <img src="/logo.png" className="w-[200px] " alt="Logo" />
 
         {/* my desktop nav */}
         <div className="hidden lg:flex gap-8 text-xl">
