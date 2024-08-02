@@ -1,4 +1,4 @@
-import images from "../../utils/images.js";
+import images from "../utils/images.js";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -17,7 +17,7 @@ const Hero = () => {
           Visit us today! Elevate your tech experience at <span className="text-yellow-600 font-bold">SAPPHIRE</span> – where the
           latest meets affordability.
         </p>
-        <Link to="/shop" className="w-40">
+        <Link to="/login" className="w-40">
           <button className="border mx-3 my-5 bg-yellow-600 hover:bg-yellow-800 transition text-white p-3 rounded-xl w-full outline-emerald-700">
             Shop Now
           </button>

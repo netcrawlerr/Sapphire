@@ -11,6 +11,8 @@ import Admin from "./pages/Admin/Admin";
 import Products from "./pages/Admin/Products";
 import Orders from "./pages/Admin/Orders";
 import Users from "./pages/Admin/Users";
+import AddToCart from "./pages/AddToCart";
+import { CartProvider } from "./utils/useCart";
 
 const router = createBrowserRouter([
   {
@@ -30,14 +32,7 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      {
-        path: "shop",
-        element: <Shop />,
-      },
-      {
-        path: "cart",
-        element: <Cart />,
-      },
+
       {
         path: "payment",
         element: <Payment />,
@@ -65,7 +60,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  );
 };
 
 export default App;
