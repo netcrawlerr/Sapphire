@@ -24,8 +24,8 @@ const images = [
     price: "17999",
   },
   {
-    name: "Macbook Pro",
-    url: "/mac1.jpg",
+    name: "HP AMD Ryzon",
+    url: "/hp.jpg",
     description: "An Apple Inc Product to Streamline Your Coding Experience",
     price: "999",
   },
