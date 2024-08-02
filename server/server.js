@@ -1,14 +1,22 @@
 import express from "express";
 const app = express();
 
+import morgan from "morgan";
+import dotenv from "dotenv";
+dotenv.config();
+
 import authRouter from "./routes/authRouter.js";
 import productRouter from "./routes/productRouter.js";
 import mongoose from "mongoose";
 import User from "./models/userModel.js";
 import Product from "./models/productModel.js";
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+if (process.env.NODE_ENV === "netcrawlerdev") {
+  app.use(morgan("dev"));
+}
 app.get("/", async (req, res) => {
   await User.create(req.body);
   await Product.create(req.body);
@@ -17,7 +25,8 @@ app.get("/", async (req, res) => {
 
 app.use("/api/auth/", authRouter);
 app.use("/api/products/", productRouter);
-app.use("/api/products/customer", customerRouter);
+// app.use("/api/products/", productRouter);
+// app.use("/api/products/customer", customerRouter);
 
 app.use("*", (req, res) => {
   res.json({ msg: "Not Found" });

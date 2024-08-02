@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const ProductSchema = mongoose.Schema(
   {
-    title: String,
-    description: String,
+    name: String,
     category: {
       type: String,
       enum: [
@@ -19,13 +18,16 @@ const ProductSchema = mongoose.Schema(
         "batteries",
       ],
     },
+    description: String,
+    model: String,
+    productDate: String,
     condition: {
       type: String,
       enum: ["new", "used"],
     },
     photo: String,
     price: Number,
-    inStock: Number,
+    inStock: String,
     status: {
       type: String,
       enum: ["soldout", "available"],
@@ -39,4 +41,4 @@ const ProductSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Product", ProductSchema);
+export default mongoose.model("Products", ProductSchema);
