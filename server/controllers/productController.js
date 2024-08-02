@@ -220,3 +220,18 @@ export const calculateTotal = async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 };
+
+export const checkout = async (req, res) => {
+  const { total, cartData } = req.body;
+
+  const checkoutItems = cartData.map((item) => ({
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+  }));
+
+  console.log(checkoutItems);
+  res.json({ total, cartData });
+
+  // console.log(total, cartData);
+};

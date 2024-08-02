@@ -10,7 +10,8 @@ import {
   getCartItems,
   removeCartItem,
   updateCartItemQuantity,
-  calculateTotal
+  calculateTotal,
+  checkout
 } from "../controllers/productController.js";
 import { validateAddProduct } from "../middlewares/validator.js";
 
@@ -30,5 +31,6 @@ router.route("/getCartItems").post(getCartItems);
 router.route("/removeCartItem").post(removeCartItem);
 router.route("/updateCartItemQuantity").post(updateCartItemQuantity);
 router.route("/calculateTotal").post(calculateTotal);
+router.route("/checkout").post(checkout);
 
 export default router;
