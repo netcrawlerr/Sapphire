@@ -3,15 +3,32 @@ import {
   addProduct,
   deleteProduct,
   editProduct,
-  seeProduct,
+  filterProducts,
+  getAllProducts,
+  getSingleProduct,
+  addToCart,
+  getCartItems,
+  removeCartItem,
+  updateCartItemQuantity,
+  calculateTotal
 } from "../controllers/productController.js";
+import { validateAddProduct } from "../middlewares/validator.js";
+
 const router = Router();
 
 router
   .route("/")
-  .get(seeProduct)
-  .post(addProduct)
+  .get(getAllProducts)
+  .post(validateAddProduct, addProduct)
   .patch(editProduct)
   .delete(deleteProduct);
+
+router.route("/:id").get(getSingleProduct);
+router.route("/filter").post(filterProducts);
+router.route("/addToCart").post(addToCart);
+router.route("/getCartItems").post(getCartItems);
+router.route("/removeCartItem").post(removeCartItem);
+router.route("/updateCartItemQuantity").post(updateCartItemQuantity);
+router.route("/calculateTotal").post(calculateTotal);
 
 export default router;
