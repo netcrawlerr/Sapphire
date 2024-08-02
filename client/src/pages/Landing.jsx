@@ -16,7 +16,7 @@ const Landing = () => {
           Featured Products
         </h1>
 
-        <div className="flex flex-wrap justify-around items-center gap-y-6 gap-x-6 lg:w-[950px] m-auto ">
+        <div className="flex flex-wrap justify-around items-center gap-y-6 gap-x-6 md:gap-x-2 md:w-[800px] lg:w-[950px] m-auto ">
           <div className="flex-col text-center w-[300px] p-1 bg-slate-200 border hover:scale-105 transition hover:cursor-pointer shadow-lg rounded-lg">
             <img
               src="/mac2.jpg"
