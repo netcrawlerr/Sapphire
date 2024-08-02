@@ -5,6 +5,7 @@
     "react-responsive-carousel": "^3.2.23"
   },
   "scripts": {
-    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
+    "setup": "cd client && npm install && cd ../server && npm install && cd ..",
+    "dev": "npm install && concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
   }
 }
