@@ -11,7 +11,7 @@ const NavBar = () => {
 
         {/* my desktop nav */}
         <div className="hidden lg:flex gap-8 text-xl">
-          <Link to="/shop" className="hover:text-gray-700">
+          <Link to="/shop" className="hover:text-gray-900 hover:border-black">
             Browse
           </Link>
           <Link to="/register" className="hover:text-gray-700">
@@ -69,7 +69,7 @@ const NavBar = () => {
           </svg>
         </button>
         <div className="flex flex-col p-6 space-y-4">
-          <Link to="/shop" className="text-white hover:text-gray-400">
+          <Link to="/shop" className="text-white hover:text-gray-400 hover:border-black">
             Browse
           </Link>
           <Link to="/register" className="text-white hover:text-gray-400">
