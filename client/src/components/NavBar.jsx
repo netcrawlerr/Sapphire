@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const NavBar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  useEffect(() => {
+    const handleLogin = async () => {
+      const response = await axios.get("/api/user/getUserData");
+      const data = await response.data;
+      if (data) {
+        setIsLoggedIn(true);
+        console.log(data.user);
+      }
+    };
+    handleLogin();
+  }, []);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+  const handleLogout = async () => {
+    const response = await axios.get("/api/auth/logout");
+    const data = await response.data;
+    if (data) {
+      setIsLoggedIn(false);
+      console.log(data);
+    }
   };
 
   return (
@@ -20,14 +34,8 @@ const NavBar = () => {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex gap-8 text-xl">
-          <Link to="/shop" className="hover:text-gray-700">
-            Browse
-          </Link>
           {isLoggedIn ? (
             <>
-              <Link to="/profile" className="hover:text-gray-700">
-                Profile
-              </Link>
               <button onClick={handleLogout} className="hover:text-gray-700">
                 Logout
               </button>
@@ -36,9 +44,6 @@ const NavBar = () => {
             <>
               <Link to="/login" className="hover:text-gray-700">
                 Login
-              </Link>
-              <Link to="/register" className="hover:text-gray-700">
-                Register
               </Link>
             </>
           )}
