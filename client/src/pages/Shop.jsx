@@ -42,7 +42,7 @@ const Shop = () => {
     setCategory("all");
     setPrice("all");
     setCondition("all");
-    fetchProducts(); // Re-fetch products to reset to default state
+    fetchProducts(); // again fetch products
   };
 
   const handleInputChange = (e) => {
@@ -73,9 +73,9 @@ const Shop = () => {
         <div
           className={`transition-all duration-500 ease-in-out ${
             viewFilter ? "translate-x-0 w-[280px]" : "-translate-x-[300px] w-0"
-          } sticky  left-0   shadow-lg z-10`}
+          } sticky left-0 shadow-lg z-10`}
         >
-          <div className="sidebar p-10 w-full ">
+          <div className="sidebar p-10 w-full">
             <form action="" className="">
               <input
                 type="text"
@@ -166,8 +166,8 @@ const Shop = () => {
 
         {/* Product section */}
         <div
-          className={`flex-1 flex justify-center flex-wrap gap-y-6 gap-x-6 px-5 ml-0 transition-all duration-500 ease-in-out ${
-            viewFilter ? "ml-[-40px]" : "ml-0"
+          className={`flex-1 flex flex-wrap  gap-y-6 gap-x-16 px-5 ml-0 transition-all duration-500 ease-in-out ${
+            viewFilter ? "ml-[50px]" : "ml-8"
           }`}
         >
           {products.length === 0 ? (
@@ -187,7 +187,7 @@ const Shop = () => {
                   onClick={() => handleSingleItemClick(item)}
                   to="/addtocart"
                   key={index}
-                  className="flex-col text-center w-[250px] p-1 bg-slate-200 border hover:scale-105 transition-transform hover:cursor-pointer shadow-lg rounded-lg"
+                  className="flex-col text-center w-[130px]  md:w-[200px] sm:w-[150px] p-1 bg-slate-200 border hover:scale-105 transition-transform hover:cursor-pointer shadow-lg rounded-lg"
                 >
                   <img
                     src={item.photo}
@@ -195,14 +195,14 @@ const Shop = () => {
                     className="h-[150px] w-full object-cover rounded-t-lg"
                   />
                   <div className="p-2 text-left">
-                    <h3 className="text-stone-800 text-l font-bold">
+                    <h3 className="text-stone-800 text-xs sm:text-sm md:text-base font-bold">
                       {item.name}
                     </h3>
                     <div className="flex justify-between">
-                      <p className="text-stone-800 text-sm mt-2">
+                      <p className="text-stone-800 text-xs sm:text-sm md:text-base mt-2">
                         {item.price} Birr
                       </p>
-                      <BiCartAdd className="text-3xl text-yellow-600 font-bold" />
+                      <BiCartAdd className="text-xl sm:text-2xl text-yellow-600 font-bold" />
                     </div>
                   </div>
                 </Link>
