@@ -1,17 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    const response = await axios.post("/api/auth/login", {
-      email: email,
-      password: password,
-    });
-    const data = await response.data;
-    console.log(data);
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/auth/login", {
+        email: email,
+        password: password,
+      });
+      const data = await response.data;
+      navigate("/shop");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex flex-row justify-center h-screen ">
@@ -33,6 +40,7 @@ const Login = () => {
             name="email"
             id="email"
             placeholder="E-mail"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -43,6 +51,7 @@ const Login = () => {
             name="password"
             id="password"
             placeholder="Password"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

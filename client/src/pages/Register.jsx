@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   MapContainer,
@@ -9,9 +9,9 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css"; // Import Leaflet CSS
+import "leaflet/dist/leaflet.css";
 
-// Custom hook to handle map events
+//  map events
 const MapEvents = ({ onMapClick }) => {
   useMapEvents({
     click(e) {
@@ -35,14 +35,18 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [shippingAddress, setShippingAddress] = useState("");
+  const [address, setaddress] = useState("");
   const [city, setCity] = useState("");
 
   const [location, setLocation] = useState([9.08192, 38.7525]); // Default to Nairobi, Kenya
   const [markerPosition, setMarkerPosition] = useState(null);
 
-  const handleShippingAddressChange = (e) => {
-    setShippingAddress(e.target.value);
+  const navigate = useNavigate();
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleaddressChange = (e) => {
+    setaddress(e.target.value);
   };
 
   const handleMapClick = async (latlng) => {
@@ -55,7 +59,6 @@ const Register = () => {
       const data = await response.json();
 
       if (data && data.address) {
-        // Build a more detailed address from available address components
         const { road, city, town, village, suburb, county, state, country } =
           data.address;
         const detailedAddress = [
@@ -67,7 +70,7 @@ const Register = () => {
           .filter((part) => part)
           .join(", ");
 
-        setShippingAddress(detailedAddress);
+        setaddress(detailedAddress);
       } else {
         alert("Unable to fetch address for selected location");
       }
@@ -78,22 +81,49 @@ const Register = () => {
   };
 
   const handleRegister = async (e) => {
-    e.prevernDefault();
-    const response = await axios.post("/api/auth/register", {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-      phoneNumber: phoneNumber,
-      city: city,
-      shippingAddress: shippingAddress,
-    });
+    e.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+    try {
+      const response = await axios.post("/api/auth/register", {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        phoneNumber: phoneNumber,
+        city: city,
+        address: address,
+      });
 
-    const data = await response.data;
-    console.log(data);
+      const data = await response.data;
+      console.log("data is ", data);
+      if (data) {
+        navigate("/login");
+      }
+    } catch (err) {
+      if (err.response && err.response.data.errors) {
+        console.log("error is ", err.response.data.errors);
+        const emailError = err.response.data.errors.find(
+          (error) =>
+            error.path === "email" && error.msg.includes("already exists")
+        );
+        if (emailError) {
+          setEmailError("Email already exists. Please use a different email.");
+        }
+        const passwordError = err.response.data.errors.find(
+          (error) =>
+            error.path === "password" && error.msg.includes("do not match")
+        );
+        if (passwordError) {
+          setPasswordError("Passwords do not match. Please try again.");
+        }
+      } else {
+        console.error("An unexpected error occurred:", err);
+      }
+    }
   };
-  console.log(shippingAddress);
+  console.log(address);
   return (
     <div className="flex flex-row justify-center h-screen">
       <div className="mt-28">
@@ -112,6 +142,7 @@ const Register = () => {
               type="text"
               name="firstName"
               placeholder="First Name"
+              required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -120,19 +151,23 @@ const Register = () => {
               type="text"
               name="lastName"
               placeholder="Last Name"
+              required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
+          {emailError && <h1 className="text-red-600">{emailError}</h1>}
           <input
             className="border mb-5 p-1 outline-none shadow w-full px-3"
             type="email"
             name="email"
             id="email"
             placeholder="E-mail"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {passwordError && <h1 className="text-red-600">{passwordError}</h1>}
           <div className="flex justify-between gap-3">
             <input
               className="border mb-5 p-1 w-1/2 outline-none shadow px-3"
@@ -140,6 +175,7 @@ const Register = () => {
               name="password"
               id="password"
               placeholder="Password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -149,6 +185,7 @@ const Register = () => {
               name="confirmPassword"
               id="password"
               placeholder="Confirm Password"
+              required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -159,6 +196,7 @@ const Register = () => {
               type="text"
               name="phoneNumber"
               placeholder="Phone Number"
+              required
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
@@ -174,10 +212,10 @@ const Register = () => {
           <input
             className="border mb-5 p-1 outline-none shadow w-full px-3"
             type="text"
-            name="shippingAddress"
-            placeholder="Shipping Address"
-            value={shippingAddress}
-            onChange={handleShippingAddressChange}
+            name="address"
+            placeholder="Address"
+            value={address}
+            onChange={handleaddressChange}
           />
           <div style={{ height: "200px", width: "100%" }}>
             <MapContainer
@@ -194,7 +232,7 @@ const Register = () => {
               <MapEvents onMapClick={handleMapClick} />
               {markerPosition && (
                 <Marker position={markerPosition}>
-                  <Popup>{shippingAddress}</Popup>
+                  <Popup>{address}</Popup>
                 </Marker>
               )}
             </MapContainer>
