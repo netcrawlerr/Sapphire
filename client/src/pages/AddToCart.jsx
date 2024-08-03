@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowLeftCircle, ShoppingBasketIcon } from "lucide-react";
 import { useCart } from "../utils/useCart";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+
 const AddToCart = () => {
   const { singleItem } = useCart();
 
@@ -17,6 +19,8 @@ const AddToCart = () => {
     console.log("sending To Backend");
     const data = response.data;
     console.log("After Adding to Carr", data);
+
+    toast.success("Added To Cart");
   };
   // get user
 
@@ -85,6 +89,16 @@ const AddToCart = () => {
               >
                 Add To Cart <ShoppingBasketIcon />
               </button>
+              <Toaster
+                toastOptions={{
+                  className: "",
+                  style: {
+                    border: "1px solid #713200",
+                    padding: "5px",
+                    color: "#713200",
+                  },
+                }}
+              />
               <Link
                 to="/cart"
                 className="px-2 py-1 w-full flex justify-around bg-yellow-500 hover:bg-yellow-700 transition-all text-white rounded-l"
