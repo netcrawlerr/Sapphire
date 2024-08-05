@@ -166,8 +166,8 @@ const Shop = () => {
 
         {/* Product section */}
         <div
-          className={`flex-1 flex flex-wrap  gap-y-6 gap-x-16 px-5 ml-0 transition-all duration-500 ease-in-out ${
-            viewFilter ? "ml-[50px]" : "ml-8"
+          className={`flex-1 flex flex-wrap  gap-y-6 lg:gap-x-16 sm:gap-x-12 px-5 ml-0 transition-all duration-500 ease-in-out ${
+            viewFilter ? "ml-[0px]" : "ml"
           }`}
         >
           {products.length === 0 ? (
@@ -187,7 +187,7 @@ const Shop = () => {
                   onClick={() => handleSingleItemClick(item)}
                   to="/addtocart"
                   key={index}
-                  className="flex-col text-center w-[130px]  md:w-[200px] sm:w-[150px] p-1 bg-slate-200 border hover:scale-105 transition-transform hover:cursor-pointer shadow-lg rounded-lg"
+                  className="flex-col text-center w-[130px]  md:w-[200px] sm:w-[150px] p-1 lg:mr-0 mr-6 bg-slate-200 border hover:scale-105 transition-transform hover:cursor-pointer shadow-lg rounded-lg"
                 >
                   <img
                     src={item.photo}

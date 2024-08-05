@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CgRemove } from "react-icons/cg";
 import { FaShoppingBasket, FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 const Cart = () => {
   // State variables
@@ -15,17 +16,21 @@ const Cart = () => {
   useEffect(() => {
     // Fetch initial cart data
     const fetchCartData = async () => {
-      const response = await axios.post("api/products/getCartItems");
-      const data = response.data.cart;
+      try {
+        const response = await axios.post("api/products/getCartItems");
+        const data = response.data.cart;
 
-      setCartData(data);
+        setCartData(data);
 
-      //  ... default value for each cart item
-      const initialQuantities = data.reduce((acc, item) => {
-        acc[item._id] = item.quantity || 1;
-        return acc;
-      }, {});
-      setQuantities(initialQuantities);
+        //  ... default value for each cart item
+        const initialQuantities = data.reduce((acc, item) => {
+          acc[item._id] = item.quantity || 1;
+          return acc;
+        }, {});
+        setQuantities(initialQuantities);
+      } catch (error) {
+        toast.error(`Only ${data[0].quantity} items found in Stock.`);
+      }
     };
     fetchCartData();
   }, []);
@@ -41,18 +46,28 @@ const Cart = () => {
 
   //  quantity change
   const handleQuantityChange = async (itemId, newQuantity) => {
+    // console.log("cartData before update quantity in handkeQuantity change", cartData);
+    // console.log("item variable in handkeQuantity change", item);
+
+    // Check if the new quantity exceeds the available stock
+
     try {
       await axios.post("api/products/updateCartItemQuantity", {
         itemId,
         quantity: newQuantity,
       });
 
+      // getUpdatedCartData();
+      console.log(cartData);
+
+      const item = cartData.find((cartItem) => cartItem._id === itemId);
+
       setQuantities((prevQuantities) => ({
         ...prevQuantities,
         [itemId]: newQuantity,
       }));
     } catch (error) {
-      console.error("Error updating quantity:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -111,6 +126,7 @@ const Cart = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Toaster />
       <div className="bg-slate-900 flex justify-between text-white text-3xl font-bold p-5">
         <Link to="/shop" className="flex text-lg items-center gap-4">
           <FaArrowLeft /> <span>Back To Shop</span>
@@ -156,6 +172,7 @@ const Cart = () => {
                       </td>
                       <td className="p-2 px-3">
                         <input
+                          required
                           value={quantities[cartItem._id] || 1}
                           onChange={(e) =>
                             handleQuantityChange(
