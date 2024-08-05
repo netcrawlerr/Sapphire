@@ -6,6 +6,7 @@ const commonValidator = (validateValues) => {
     validateValues,
     (req, res, next) => {
       const errors = validationResult(req);
+      console.log("Validation Errors: ", errors);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -53,6 +54,9 @@ export const validateRegister = commonValidator([
     }
     return true;
   }),
+  body("phoneNumber").notEmpty().withMessage("Phone Number is Required"),
+  // body("address").notEmpty().withMessage("address  is Required")
+  // body("city").notEmpty().withMessage("city  is Required")
 ]);
 
 export const validateAddProduct = commonValidator([
@@ -85,3 +89,22 @@ export const validateAddProduct = commonValidator([
 
   // Middleware to check validation results
 ]);
+
+import { verifyJWTToken } from "../utils/tokenUtils.js";
+
+export const isLoggedin = (req, res, next) => {
+  const { token } = req.cookies;
+  console.log("token from cookies", token);
+
+  if (!token) {
+    return res.status(401).json({ msg: "unauthenticated user" });
+  }
+  try {
+    const { userId, firstName } = verifyJWTToken(token);
+    req.user = { userId, firstName };
+    console.log(req.user.firstName);
+    next(); // move on to next middleware if everything is cool
+  } catch (error) {
+    return res.status(401).json({ msg: "unauthenticated user" });
+  }
+};

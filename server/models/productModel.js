@@ -16,6 +16,7 @@ const ProductSchema = mongoose.Schema(
         "hard-disks",
         "ssd",
         "batteries",
+        "accessories",
       ],
     },
     description: String,
@@ -27,7 +28,7 @@ const ProductSchema = mongoose.Schema(
     },
     photo: String,
     price: Number,
-    inStock: String,
+    inStock: Number,
     status: {
       type: String,
       enum: ["soldout", "available"],

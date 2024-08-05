@@ -5,13 +5,16 @@ import express from "express";
 const app = express();
 
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import authRouter from "./routes/authRouter.js";
 import productRouter from "./routes/productRouter.js";
+import userRouter from "./routes/userRouter.js";
 import mongoose from "mongoose";
 import User from "./models/userModel.js";
 import Product from "./models/productModel.js";
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -26,6 +29,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/auth/", authRouter);
 app.use("/api/products/", productRouter);
+app.use("/api/user/", userRouter);
 // app.use("/api/products/", productRouter);
 // app.use("/api/products/customer", customerRouter);
 

@@ -11,26 +11,29 @@ import {
   removeCartItem,
   updateCartItemQuantity,
   calculateTotal,
-  checkout
+  checkout,
 } from "../controllers/productController.js";
-import { validateAddProduct } from "../middlewares/validator.js";
+import { isLoggedin, validateAddProduct } from "../middlewares/validator.js";
 
 const router = Router();
 
 router
   .route("/")
-  .get(getAllProducts)
+  .get(isLoggedin, getAllProducts)
   .post(validateAddProduct, addProduct)
   .patch(editProduct)
   .delete(deleteProduct);
 
 router.route("/:id").get(getSingleProduct);
-router.route("/filter").post(filterProducts);
-router.route("/addToCart").post(addToCart);
-router.route("/getCartItems").post(getCartItems);
-router.route("/removeCartItem").post(removeCartItem);
-router.route("/updateCartItemQuantity").post(updateCartItemQuantity);
-router.route("/calculateTotal").post(calculateTotal);
-router.route("/checkout").post(checkout);
+router.route("/filter").post(isLoggedin, filterProducts);
+router.route("/addToCart").post(isLoggedin, addToCart);
+router.route("/getCartItems").post(isLoggedin, getCartItems);
+router.route("/removeCartItem").post(isLoggedin, removeCartItem);
+router
+  .route("/updateCartItemQuantity")
+  .post(isLoggedin, updateCartItemQuantity);
+router.route("/calculateTotal").post(isLoggedin, calculateTotal);
+router.route("/checkout").post(isLoggedin, checkout);
+// router.route("/checkoutReport").post(sendCheckoutReport);
 
 export default router;
