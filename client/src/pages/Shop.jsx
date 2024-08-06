@@ -6,11 +6,13 @@ import axios from "axios";
 import { useCart } from "../utils/useCart";
 
 const Shop = () => {
+
+
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [viewFilter, setViewFilter] = useState(true);
 
-  // Filter states
+ 
   const [category, setCategory] = useState("all");
   const [price, setPrice] = useState("all");
   const [condition, setCondition] = useState("all");
@@ -42,7 +44,7 @@ const Shop = () => {
     setCategory("all");
     setPrice("all");
     setCondition("all");
-    fetchProducts(); // again fetch products
+    fetchProducts(); // again mw fetch products
   };
 
   const handleInputChange = (e) => {

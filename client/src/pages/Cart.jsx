@@ -102,24 +102,21 @@ const Cart = () => {
     }));
   };
 
-  //  checkout
   const handleCheckout = async (e) => {
     e.preventDefault();
 
-    setPhoneError("wow")
-    // console.log(isSubmitting);
+    setPhoneError("wow");
 
-    const updatedCartData = getUpdatedCartData(); // Get updated cart data
+    const updatedCartData = getUpdatedCartData();
     console.log("Just Before checkout  updated:", updatedCartData[0].quantity);
 
     try {
       const response = await axios.post("api/products/checkout", {
         cartData: updatedCartData,
         total,
-        phoneNumber,
+        // phoneNumber,/
       });
 
-      // navigate("/checkoutReport");
       navigate("/checkoutReport", { state: response.data });
       console.log("Checkout response:", response.data);
     } catch (error) {
@@ -202,11 +199,6 @@ const Cart = () => {
               <div className="text-white flex flex-col gap-4">
                 <h1>Pay With</h1>
                 <div className="">
-                  {/* <img
-                    width={40}
-                    src="https://dev.ethiotelecom.et/wp-content/uploads/2021/06/telebirr_Web-03-400x398.png"
-                    alt="Payment Logo"
-                  /> */}
                   <h1 className="text-4xl text-sky-400 font-bold">Z-Pay</h1>
                   <form
                     action=""
@@ -225,7 +217,7 @@ const Cart = () => {
                         id="companyId"
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <label htmlFor="phoneNumber">Your Phone Number</label>
                       <h1
                         className={
@@ -242,7 +234,7 @@ const Cart = () => {
                         id="phoneNumber"
                         required
                       />
-                    </div>
+                    </div> */}
                     <h2 className="text-xl font-bold">
                       Total: {total.toFixed(2)} Birr
                     </h2>

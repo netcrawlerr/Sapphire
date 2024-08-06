@@ -2,8 +2,11 @@ import images from "../utils/images.js";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import useStore from "../utils/zus";
 const Hero = () => {
+  const { isLoggedIn, setIsLoggedIn } = useStore();
+  console.log("at hero isLoggedIn", isLoggedIn);
+
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center gap-8 px-8 my-[-30px]">
       <div className="flex flex-col justify-center lg:w-[600px] w-full mb-10">
@@ -14,10 +17,11 @@ const Hero = () => {
         </h1>
 
         <p className="px-5 mb-5 text-base md:text-lg lg:text-xl">
-          Visit us today! Elevate your tech experience at <span className="text-yellow-600 font-bold">SAPPHIRE</span> – where the
-          latest meets affordability.
+          Visit us today! Elevate your tech experience at{" "}
+          <span className="text-yellow-600 font-bold">SAPPHIRE</span> – where
+          the latest meets affordability.
         </p>
-        <Link to="/login" className="w-40">
+        <Link to={isLoggedIn ? "/shop" : "/login"} className="w-40">
           <button className="border mx-3 my-5 bg-yellow-600 hover:bg-yellow-800 transition text-white p-3 rounded-xl w-full outline-emerald-700">
             Shop Now
           </button>

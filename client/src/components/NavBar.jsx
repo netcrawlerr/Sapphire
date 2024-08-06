@@ -1,31 +1,41 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useStore from "../utils/zus";
 
 const NavBar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleLogin = async () => {
-      const response = await axios.get("/api/user/getUserData");
-      const data = await response.data;
-      if (data) {
-        setIsLoggedIn(true);
-        console.log(data.user);
+    const getUserData = async () => {
+      try {
+        const response = await axios.get("/api/user/getUserData");
+        const data = await response.data;
+        if (data) {
+          setIsLoggedIn(true);
+          console.log(data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching user data", error);
       }
     };
-    handleLogin();
-  }, []);
+    getUserData();
+  }, [setIsLoggedIn]);
 
   const handleLogout = async () => {
-    const response = await axios.get("/api/auth/logout");
-    const data = await response.data;
-    if (data) {
-      setIsLoggedIn(false);
-      console.log(data);
-      navigate("/"); // Redirect to the home page
+    try {
+      const response = await axios.get("/api/auth/logout");
+      const data = await response.data;
+      if (data) {
+        setIsLoggedIn(false);
+        console.log(data);
+        navigate("/");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   };
 

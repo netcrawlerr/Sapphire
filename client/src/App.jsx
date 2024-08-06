@@ -13,6 +13,7 @@ import Orders from "./pages/Admin/Orders";
 import Users from "./pages/Admin/Users";
 import AddToCart from "./pages/AddToCart";
 import { CartProvider } from "./utils/useCart";
+import ProtectedRoute from "./utils/ProtectedRoute"; // Import the ProtectedRoute
 
 const router = createBrowserRouter([
   {
@@ -34,35 +35,35 @@ const router = createBrowserRouter([
       },
       {
         path: "shop",
-        element: <Shop />,
+        element: <ProtectedRoute element={Shop} />, // Pass the component directly
       },
       {
-        path: "/addtocart",
-        element: <AddToCart />,
+        path: "addtocart",
+        element: <ProtectedRoute element={AddToCart} />, // Pass the component directly
       },
       {
-        path: "/cart",
-        element: <Cart />,
+        path: "cart",
+        element: <ProtectedRoute element={Cart} />, // Pass the component directly
       },
       {
         path: "checkoutReport",
-        element: <CheckoutReport />,
+        element: <ProtectedRoute element={CheckoutReport} />, // Pass the component directly
       },
       {
         path: "admin",
-        element: <Admin />,
+        element: <ProtectedRoute element={Admin} />, // Pass the component directly
         children: [
           {
             path: "products",
-            element: <Products />,
+            element: <ProtectedRoute element={Products} />, // Pass the component directly
           },
           {
             path: "orders",
-            element: <Orders />,
+            element: <ProtectedRoute element={Orders} />, // Pass the component directly
           },
           {
             path: "users",
-            element: <Users />,
+            element: <ProtectedRoute element={Users} />, // Pass the component directly
           },
         ],
       },
