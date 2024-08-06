@@ -16,6 +16,7 @@ const commonValidator = (validateValues) => {
     },
   ];
 };
+
 export const validateLogin = commonValidator([
   body("email")
     .notEmpty()

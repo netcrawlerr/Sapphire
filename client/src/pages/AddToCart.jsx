@@ -9,18 +9,26 @@ const AddToCart = () => {
 
   console.log("singleItem is ", singleItem);
   const isSoldOut = singleItem.status === "soldout";
-  console.log(singleItem);
-
   // add to cart
   const handleAddToCart = async () => {
-    const response = await axios.post("api/products/addToCart", {
-      singleItem: singleItem,
-    });
-    console.log("sending To Backend");
-    const data = response.data;
-    console.log("After Adding to Carr", data);
+    if (isSoldOut) {
+      toast.error("Sorry, this item is sold out.");
+      return;
+    }
 
-    toast.success("Added To Cart");
+    try {
+      const response = await axios.post("api/products/addToCart", {
+        singleItem: singleItem,
+      });
+      console.log("sending To Backend");
+      const data = response.data;
+      console.log("data sent is ", data);
+      console.log("After Adding to Cart", data);
+
+      toast.success("Added To Cart");
+    } catch (error) {
+      console.log(error);
+    }
   };
   // get user
 
@@ -84,7 +92,7 @@ const AddToCart = () => {
               <h1>Status: {singleItem.status}</h1>
               <button
                 onClick={handleAddToCart}
-                disabled={isSoldOut}
+                // disabled={isSoldOut}
                 className="px-2 py-1 w-full flex justify-around bg-green-500 hover:bg-green-700 transition-all text-white rounded-l"
               >
                 Add To Cart <ShoppingBasketIcon />

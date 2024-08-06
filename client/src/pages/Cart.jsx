@@ -11,6 +11,7 @@ const Cart = () => {
   const [quantities, setQuantities] = useState({});
   const [total, setTotal] = useState(0);
 
+  const [phoneError, setPhoneError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -105,6 +106,7 @@ const Cart = () => {
   const handleCheckout = async (e) => {
     e.preventDefault();
 
+    setPhoneError("wow")
     // console.log(isSubmitting);
 
     const updatedCartData = getUpdatedCartData(); // Get updated cart data
@@ -114,6 +116,7 @@ const Cart = () => {
       const response = await axios.post("api/products/checkout", {
         cartData: updatedCartData,
         total,
+        phoneNumber,
       });
 
       // navigate("/checkoutReport");
@@ -198,12 +201,13 @@ const Cart = () => {
             <div className="cart-checkout bg-stone-900 p-5 flex flex-col gap-4 w-full lg:w-[300px] rounded-md shadow-md">
               <div className="text-white flex flex-col gap-4">
                 <h1>Pay With</h1>
-                <div>
-                  <img
+                <div className="">
+                  {/* <img
                     width={40}
                     src="https://dev.ethiotelecom.et/wp-content/uploads/2021/06/telebirr_Web-03-400x398.png"
                     alt="Payment Logo"
-                  />
+                  /> */}
+                  <h1 className="text-4xl text-sky-400 font-bold">Z-Pay</h1>
                   <form
                     action=""
                     onSubmit={handleCheckout}
@@ -223,11 +227,20 @@ const Cart = () => {
                     </div>
                     <div>
                       <label htmlFor="phoneNumber">Your Phone Number</label>
+                      <h1
+                        className={
+                          phoneError ? "text-red-400" : "hidden text-red-400"
+                        }
+                      >
+                        Invalid Phone
+                      </h1>
                       <input
                         className="rounded bg-slate-300 text-black px-2 py-2 w-full"
                         type="text"
                         name="phoneNumber"
+                        placeholder="Registered Phone"
                         id="phoneNumber"
+                        required
                       />
                     </div>
                     <h2 className="text-xl font-bold">
