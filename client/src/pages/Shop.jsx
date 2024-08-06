@@ -10,7 +10,7 @@ const Shop = () => {
 
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  const [viewFilter, setViewFilter] = useState(true);
+  const [viewFilter, setViewFilter] = useState(false);
 
  
   const [category, setCategory] = useState("all");
@@ -65,7 +65,7 @@ const Shop = () => {
 
       <button
         onClick={handleToggleFilter}
-        className="border bg-stone-600 text-white font-bold p-1 rounded mb-5"
+        className="border border-black  font-light p-1  ml-1 mb-5"
       >
         {viewFilter ? "Hide Filter" : "Show Filter"}
       </button>
@@ -168,8 +168,8 @@ const Shop = () => {
 
         {/* Product section */}
         <div
-          className={`flex-1 flex flex-wrap  gap-y-6 lg:gap-x-16 sm:gap-x-12 px-5 ml-0 transition-all duration-500 ease-in-out ${
-            viewFilter ? "ml-[0px]" : "ml"
+          className={`flex-1 flex flex-wrap gap-y-6 lg:gap-x-16 sm:gap-x-12 px-5 ml-0  transition-all duration-500 ease-in-out ${
+            viewFilter ? "ml-[0px]" : "ml-8"
           }`}
         >
           {products.length === 0 ? (

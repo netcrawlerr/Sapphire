@@ -115,17 +115,17 @@ const NavBar = () => {
             Browse
           </Link>
           {isLoggedIn ? (
-            <>
+            <div className="flex flex-col">
               <Link to="/profile" className="text-white hover:text-gray-400">
                 Profile
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-white hover:text-gray-400"
+                className="text-white text-left mt-2 hover:text-gray-400"
               >
                 Logout
               </button>
-            </>
+            </div>
           ) : (
             <>
               <Link to="/login" className="text-white hover:text-gray-400">
