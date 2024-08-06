@@ -13,14 +13,21 @@ import userRouter from "./routes/userRouter.js";
 import mongoose from "mongoose";
 import User from "./models/userModel.js";
 import Product from "./models/productModel.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === "netcrawlerdev") {
   app.use(morgan("dev"));
 }
+
+app.use(express.static(path.resolve(__dirname, "./public")));
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", async (req, res) => {
   await User.create(req.body);
   await Product.create(req.body);
@@ -30,8 +37,10 @@ app.get("/", async (req, res) => {
 app.use("/api/auth/", authRouter);
 app.use("/api/products/", productRouter);
 app.use("/api/user/", userRouter);
-// app.use("/api/products/", productRouter);
-// app.use("/api/products/customer", customerRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+});
 
 app.use("*", (req, res) => {
   res.json({ msg: "Not Found" });
