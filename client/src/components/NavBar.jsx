@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const NavBar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleLogin = async () => {
@@ -24,6 +25,7 @@ const NavBar = () => {
     if (data) {
       setIsLoggedIn(false);
       console.log(data);
+      navigate("/"); // Redirect to the home page
     }
   };
 
@@ -34,19 +36,18 @@ const NavBar = () => {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex gap-8 text-xl">
-          {isLoggedIn ? (
-            <>
-              <button onClick={handleLogout} className="hover:text-gray-700">
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="hover:text-gray-700">
-                Login
-              </Link>
-            </>
+          {isLoggedIn && (
+            <Link to="/" onClick={handleLogout} className="hover:text-gray-700">
+              Logout
+            </Link>
           )}
+
+          {!isLoggedIn && (
+            <Link to="/login" className="hover:text-gray-700">
+              Login
+            </Link>
+          )}
+
           <Link to="/about" className="hover:text-gray-700">
             About
           </Link>

@@ -13,7 +13,8 @@ import {
   calculateTotal,
   checkout,
 } from "../controllers/productController.js";
-import { isLoggedin, validateAddProduct } from "../middlewares/validator.js";
+import { validateAddProduct } from "../middlewares/validator.js";
+import { isLoggedin } from "../middlewares/isLoggedIn.js";
 
 const router = Router();
 

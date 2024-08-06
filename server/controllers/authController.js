@@ -53,7 +53,7 @@ export const logout = (req, res) => {
 };
 
 export const getUserData = (req, res) => {
-  console.log(req.user);
+  console.log("from get user data",req.user);
 
   const loggedInUser = req.user;
   res.json({ user: loggedInUser });
