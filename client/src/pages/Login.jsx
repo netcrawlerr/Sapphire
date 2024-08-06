@@ -5,6 +5,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loginError, setLoginError] = useState("");
+
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,7 +19,8 @@ const Login = () => {
       navigate("/shop");
       console.log(data);
     } catch (error) {
-      console.log(error);
+      setLoginError(error.response.data)
+      console.log("error loging in");
     }
   };
   return (
@@ -33,6 +36,7 @@ const Login = () => {
           <div className="text-5xl text-yellow-600 mb-5 text-center">
             Sapphire
           </div>
+          <h1 className={loginError ? "text- py-2 text-red-500 text-lg" : "hidden text- py-2 text-red-500 text-lg" }>Invalid Credentials</h1>
           {/* <label htmlFor="email">Email</label> */}
           <input
             className="border mb-5 p-1 outline-none shadow  px-3"
